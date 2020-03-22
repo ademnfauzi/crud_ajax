@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/bootstrap.css'); ?>">
     <!-- <link rel="stylesheet" href="<?= base_url('assets/datatables/css/dataTables.bootstrap.css'); ?>"> -->
     <script src="<?= base_url('assets/jquery/jquery.js') ?>"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 
 
 
@@ -34,10 +35,15 @@
     </div>
     </div>
 
-    <!-- <script src="<?= base_url('assets/datatables/js/jquery.dataTables.js') ?>"></script> -->
     <script src="<?= base_url('assets/bootstrap/js/bootstrap.min.js') ?>"></script>
-    <!-- <script src="<?= base_url('assets/datatables/js/dataTables.bootstrap.js') ?>"></script> -->
-    <!-- <script>
+    <!-- <script src="<?= base_url('assets/datatables/js/jquery.dataTables.min.js') ?>"></script> -->
+    <!-- <script src="<?= base_url('assets/datatables/js/dataTables.bootstrap.min.js') ?>"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.2.3/js/dataTables.select.min.js"></script> -->
+    <script>
         $(document).ready(function() {
             $('#table').DataTable();
         });
@@ -49,11 +55,22 @@
                 url:'<?= base_url(); ?>barang/getBarang',
                 dataType:'json',
                 success: function(data){
-                    console.log(data);
+                    let baris = '';
+                    for(var i=0;i<data.length;i++){
+                        baris += '<tr>'+
+                                        '<td>'+ data[i].id +'</td>' +
+                                        '<td>'+ data[i].nama +'</td>' +
+                                        '<td>'+ data[i].harga_satuan +'</td>' +
+                                        '<td>'+ data[i].jumlah +'</td>' +
+                                        '<td>'+ data[i].keterangan +'</td>' +
+                                '</tr>';
+                    }
+                    $('#show').html(baris);
                 }
             });
         }
-    </script> -->
+        getBarang();
+    </script>
 
 
 </body>
