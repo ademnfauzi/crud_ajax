@@ -9,17 +9,19 @@
     <!-- <link rel="stylesheet" href="<?= base_url('assets/datatables/css/dataTables.bootstrap.css'); ?>"> -->
     <script src="<?= base_url('assets/jquery/jquery.js') ?>"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+    
 
 
 
 </head>
 <body>
     <div class="container">
-        <h1>CRUD AJAX WITH DATATABLES</h1>
+        <h1>CRUD AJAX</h1>
         <br>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#catchBarang" onclick="submit('tambah')">
             ADD BARANG
         </button>
+        <button type="button" id="tombol" onclick="Swal('Hello world','coba','success')">klik</button>
         <br>
     <div class="table-responsive">
         <table class="table table-hover" id="table">
@@ -98,17 +100,12 @@
 </div>
 
     <script src="<?= base_url('assets/bootstrap/js/bootstrap.min.js') ?>"></script>
-    <!-- <script src="<?= base_url('assets/datatables/js/jquery.dataTables.min.js') ?>"></script> -->
-    <!-- <script src="<?= base_url('assets/datatables/js/dataTables.bootstrap.min.js') ?>"></script> -->
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="" crossorigin="anonymous"></script> -->
-    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
-    <!-- <script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js"></script>
-    <script src="https://cdn.datatables.net/select/1.2.3/js/dataTables.select.min.js"></script> -->
     <script>
-        $(document).ready(function() {
+        $(document).ready( function () {
             $('#table').DataTable();
-        });
+        } );        
 
         function getBarang(){
             $.ajax({
