@@ -17,7 +17,7 @@
     <div class="container">
         <h1>CRUD AJAX WITH DATATABLES</h1>
         <br>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#catchBarang">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#catchBarang" onclick="submit('tambah')">
             ADD BARANG
         </button>
         <br>
@@ -30,6 +30,7 @@
                     <th>HARGA SATUAN</th>
                     <th>JUMLAH</th>
                     <th>KETERANGAN</th>
+                    <th>ACTION</th>
                 </tr>
             </thead>
             <tbody id="show">
@@ -55,6 +56,9 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="nama">NAMA BARANG</span>
                     </div>
+                    <input type="hidden" name="id" value="">
+                <p class="validasi_id"></p>
+
                 <input type="text" class="form-control" name="nama" id="nama" aria-label="Username" aria-describedby="basic-addon1">
                 <p class="validasi_nama"></p>
             </div>
@@ -86,7 +90,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" onclick="addBarang()">Save changes</button>
+        <button type="button" class="btn btn-success" id="btn-tambah" onclick="addBarang()">Save changes</button>
+        <button type="button" class="btn btn-warning" id="btn-ubah" onclick="updateBarang()">Save changes</button>
       </div>
     </div>
   </div>
@@ -105,7 +110,6 @@
             $('#table').DataTable();
         });
 
-
         function getBarang(){
             $.ajax({
                 type:'POST',
@@ -120,6 +124,7 @@
                                         '<td>'+ data[i].harga_satuan +'</td>' +
                                         '<td>'+ data[i].jumlah +'</td>' +
                                         '<td>'+ data[i].keterangan +'</td>' +
+                                        '<td> <a href="#catchBarang" data-toggle="modal" class="btn btn-warning" onclick="submit('+data[i].id+')">Update</a> </td>' +
                                 '</tr>';
                     }
                     $('#show').html(baris);
@@ -158,6 +163,63 @@
                 }
             });
         }
+            function submit(x){
+                if (x=='tambah') {
+                    $('#btn-tambah').show();
+                    $('#btn-ubah').hide();
+                } else {
+                    $('#btn-tambah').hide();
+                    $('#btn-ubah').show();
+                    
+                    $.ajax({
+                        type:'post',
+                        data:'id='+x,
+                        url:'<?= base_url(); ?>barang/getIdBarang',
+                        dataType:'json',
+                        success:function(hasil){
+                            // console.log(hasil);
+                            $('[name="id"]').val(hasil[0].id);
+                            $('[name="nama"]').val(hasil[0].nama);
+                            $('[name="harga_satuan"]').val(hasil[0].harga_satuan);
+                            $('[name="jumlah"]').val(hasil[0].jumlah);
+                            $('[name="keterangan"]').val(hasil[0].keterangan);
+                        }
+                    })
+                }
+            }
+
+            function updateBarang(){
+                let id = $("[name='id']").val();
+                let nama = $("[name='nama']").val();
+                let harga = $("[name='harga_satuan']").val();
+                let jumlah = $("[name='jumlah']").val();
+                let keterangan = $("[name='keterangan']").val();
+                
+                $.ajax({
+                    type:'post',
+                    data:'id='+id+'&nama='+nama+'&harga_satuan='+harga+'&jumlah='+jumlah+'&keterangan='+keterangan,
+                    url:'<?= base_url(); ?>barang/updateData',
+                    dataType:'json',
+                    success:function(data){
+                        if (data !== 'sukses') {
+                            $(".validasi_id").html(data.id);
+                            $(".validasi_nama").html(data.nama);
+                            $(".validasi_harga_satuan").html(data.harga_satuan);
+                            $(".validasi_jumlah").html(data.jumlah);
+                            $(".validasi_keterangan").html(data.keterangan);
+                        } else {
+                        $('#catchBarang').modal('hide');
+                            getBarang();
+
+                            $("[name='id']").val('');
+                            $("[name='nama']").val('');
+                            $("[name='harga_satuan']").val('');
+                            $("[name='jumlah']").val('');
+                            $("[name='keterangan']").val('');
+                        }
+                    }
+                });
+            }
     </script>
 
 

@@ -20,4 +20,24 @@ class Barang_model extends CI_Model {
 
         $this->db->insert('barang', $data);
     }
+    public function getBarangById($table,$where){
+        return $this->db->get_where($table,$where);
+    }
+    public function updateBarang(){
+        $id = $this->input->post('id');
+        $nama = $this->input->post('nama');
+        $harga = $this->input->post('harga_satuan');
+        $jumlah = $this->input->post('jumlah');
+        $keterangan = $this->input->post('keterangan');
+
+        $data = [
+            'id' => $id,
+            'nama' => $nama,
+            'harga_satuan' => $harga,
+            'jumlah' => $jumlah,
+            'keterangan' => $keterangan
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('barang',$data);
+    }
 }
