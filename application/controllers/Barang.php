@@ -101,4 +101,12 @@ class Barang extends CI_Controller {
             echo json_encode('sukses');
             }
     }
+
+    public function deleteData(){
+        $id = $this->input->post('id');
+        $where = [
+            'id' => $id
+        ];
+        $this->b_m->deleteData($where,'barang');
+     }
 }

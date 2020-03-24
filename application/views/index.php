@@ -119,12 +119,12 @@
                     let baris = '';
                     for(var i=0;i<data.length;i++){
                         baris += '<tr>'+
-                                        '<td>'+ data[i].id +'</td>' +
+                                        '<td>'+ (i+1) +'</td>' +
                                         '<td>'+ data[i].nama +'</td>' +
                                         '<td>'+ data[i].harga_satuan +'</td>' +
                                         '<td>'+ data[i].jumlah +'</td>' +
                                         '<td>'+ data[i].keterangan +'</td>' +
-                                        '<td> <a href="#catchBarang" data-toggle="modal" class="btn btn-warning" onclick="submit('+data[i].id+')">Update</a> </td>' +
+                                        '<td> <a href="#catchBarang" data-toggle="modal" class="btn btn-warning" onclick="submit('+data[i].id+')">Update</a> <a href="" class="btn btn-danger" onclick="deleteData('+data[i].id+')">Delete</a> </td>' +
                                 '</tr>';
                     }
                     $('#show').html(baris);
@@ -219,6 +219,19 @@
                         }
                     }
                 });
+            }
+            function deleteData(id){
+                let tanya = confirm("Yakin untuk hapus data ?");
+                if (tanya) {
+                    $.ajax({
+                        type:'post',
+                        data:'id='+id,
+                        url:'<?= base_url(); ?>barang/deleteData',
+                        success: function(){
+                            getBarang();
+                        }
+                    });
+                }
             }
     </script>
 
